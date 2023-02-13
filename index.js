@@ -24,8 +24,7 @@ for (const file of commandFiles) {
 
 // loading togglecommands
 console.log('Loading toggle commands...');
-const toggleCommandList = require(path.join(commandsPath, 'toggleCommands.json'));
-const { generateToggleCommand } = require(path.join(commandsPath, 'reuse/generateToggle.js'));
+const toggles = require(path.join(commandsPath, 'toggles.json'));
 
 let defaultSettings = {
     modrole: "Moderator",
@@ -33,13 +32,8 @@ let defaultSettings = {
 }
 
 // generate toggle commands
-for (const toggleCommand of toggleCommandList){
-    let doCommand = generateToggleCommand(toggleCommand.varName, true, toggleCommand.desc);
-    let doNotCommand = generateToggleCommand(toggleCommand.varName, false, toggleCommand.desc);
-    client.commands.set(doCommand.data.name, doCommand);
-    client.commands.set(doNotCommand.data.name, doNotCommand);
-
-    defaultSettings[toggleCommand.varName] = toggleCommand.defaultValue;
+for (const toggle of toggles){
+    defaultSettings[toggle.varName] = toggle.defaultValue;
 }
 
 // attaching settings to client

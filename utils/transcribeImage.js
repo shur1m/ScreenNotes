@@ -5,9 +5,9 @@ async function transcribeImage(client, message){
     let settings = client.settings;
     let guildid = message.guild.id;
 
-    //ensure safe word is not in message and doTranscribe is true
+    //ensure safe word is not in message and transcibe_all is true
     if (message.content.includes('donot') ||
-        !settings.get(guildid, 'transcribe'))
+        !settings.get(guildid, 'transcribe_all'))
         return;
 
     // for every attachment (picture), grab the links of the images
@@ -29,14 +29,14 @@ async function transcribeImage(client, message){
             messageOptions = Object();
             messageOptions.content = imageText;
             
-            if (settings.get(guildid, 'copyimage'))
+            if (settings.get(guildid, 'copy_image'))
                 messageOptions.files = [image]
 
             await message.channel.send(messageOptions);
         }
 
         // delete original message
-        if (message.deletable && settings.get(guildid, 'deletemessage')){
+        if (message.deletable && settings.get(guildid, 'delete_message')){
             await message.delete();
         }
     }

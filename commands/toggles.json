@@ -1,0 +1,19 @@
+[
+    {
+        "varName": "transcribe_all",
+        "desc": "transcribes all messages with images",
+        "defaultValue": true
+    },
+
+    {
+        "varName" : "copy_image",
+        "desc" : "copies images transcribed",
+        "defaultValue": true
+    },
+
+    {
+        "varName": "delete_message",
+        "desc": "deletes messages transcribed",
+        "defaultValue": true
+    }
+]

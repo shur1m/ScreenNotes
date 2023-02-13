@@ -12,17 +12,6 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-// deploy toggle commands
-const toggleCommandList = require('./commands/toggleCommands.json');
-const { generateToggleCommand } = require('./commands/reuse/generateToggle.js');
-
-for (const toggleCommand of toggleCommandList){
-    let doCommand = generateToggleCommand(toggleCommand.varName, true, toggleCommand.desc);
-    let doNotCommand = generateToggleCommand(toggleCommand.varName, false, toggleCommand.desc);
-	commands.push(doCommand.data.toJSON());
-	commands.push(doNotCommand.data.toJSON());
-}
-
 // Construct and prepare an instance of the REST module
 const rest = new REST({ version: '10' }).setToken(token);
 
@@ -32,16 +21,16 @@ const rest = new REST({ version: '10' }).setToken(token);
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
-		// const data = await rest.put(
-		// 	Routes.applicationGuildCommands(clientId, guildId),
-		// 	{ body: commands },
-		// );
+		const data = await rest.put(
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: commands },
+		);
 
         // register as global commands
-        const data = await rest.put(
-            Routes.applicationCommands(clientId),
-            { body: commands },
-        );
+        // const data = await rest.put(
+        //     Routes.applicationCommands(clientId),
+        //     { body: commands },
+        // );
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
