@@ -1,13 +1,16 @@
 const { Attachment, AttachmentBuilder } = require('discord.js');
 const convertImageToText = require('./tesseract/imageToText.js');
+const evaluateToggle = require('./enmap/evaluateToggle.js');
+
+//WIP if text too long, we should send it in multiple batches 
 
 async function transcribeImage(client, message){
     let settings = client.settings;
     let guildid = message.guild.id;
+    let channelid = message.channel.id;
 
     //ensure safe word is not in message and transcibe_all is true
-    if (message.content.includes('donot') ||
-        !settings.get(guildid, 'transcribe_all'))
+    if (message.content.includes('donot') || !evaluateToggle('transcribe_all', settings, message))
         return;
 
     // for every attachment (picture), grab the links of the images
@@ -29,14 +32,14 @@ async function transcribeImage(client, message){
             messageOptions = Object();
             messageOptions.content = imageText;
             
-            if (settings.get(guildid, 'copy_image'))
+            if (evaluateToggle('copy_image', settings, message))
                 messageOptions.files = [image]
 
             await message.channel.send(messageOptions);
         }
 
         // delete original message
-        if (message.deletable && settings.get(guildid, 'delete_message')){
+        if (message.deletable && evaluateToggle('delete_message', settings, message)){
             await message.delete();
         }
     }

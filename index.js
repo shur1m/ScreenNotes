@@ -27,8 +27,9 @@ console.log('Loading toggle commands...');
 const toggles = require(path.join(commandsPath, 'toggles.json'));
 
 let defaultSettings = {
-    modrole: "Moderator",
-    adminrole: "Administrator",
+    mod_role: "Moderator",
+    admin_role: "Administrator",
+    channel_settings: null,
 }
 
 // generate toggle commands

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-// WIP
+// WIP, allow attachments, links to images, links to messages
 
 module.exports = {
 	data: new SlashCommandBuilder()
