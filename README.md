@@ -12,3 +12,5 @@ Discord bot that uses Tesseract.js to transcribe images to text, indexing them f
 - per channel settings
 - language selection
 - settings display
+- option to remove newlines
+- ensure that image gets transcribed, even if there is too much text
