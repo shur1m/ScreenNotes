@@ -3,8 +3,27 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
+// import enmap for per server/channel settings
+const Enmap = require('enmap');
+
 // declaring clients
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent]});
+
+// attaching settings to client
+client.settings = new Enmap({
+    name: "settings",
+    fetchAll: false,
+    autoFetch: true,
+    cloneLevel: 'deep',
+    autoEnsure: {
+        prefix: "!",
+        modLogChannel: "mod-log",
+        modRole: "Moderator",
+        adminRole: "Administrator",
+        welcomeChannel: "welcome",
+        welcomeMessage: "Say hello to {{user}}, everyone!"
+    }
+});
 
 // getting commands from folder
 client.commands = new Collection();

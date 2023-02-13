@@ -1,6 +1,11 @@
-#discord bot
+# Discord bot
 config.json
 
+# Enmap
+data/
+
+# tesseract
+*.traineddata
 
 # Logs
 logs

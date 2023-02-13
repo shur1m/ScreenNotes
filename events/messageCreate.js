@@ -1,7 +1,7 @@
 const { Events, Attachment, AttachmentBuilder} = require('discord.js');
 const { convertImageToText } = require('../utils/tesseract/imageToText.js');
 
-async function transcribeImage(message){
+async function transcribeImage(client, message){
 
     //ensure safe word is not in message
     if (!message.content.includes('donot')){
@@ -37,7 +37,7 @@ module.exports = {
             return;
         }
 
-        transcribeImage(message)
+        transcribeImage(client, message)
             .catch((error) => {
             console.error(error);
         });
