@@ -7,23 +7,7 @@ const { token } = require('./config.json');
 const Enmap = require('enmap');
 
 // declaring clients
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent]});
-
-// attaching settings to client
-client.settings = new Enmap({
-    name: "settings",
-    fetchAll: false,
-    autoFetch: true,
-    cloneLevel: 'deep',
-    autoEnsure: {
-        prefix: "!",
-        modLogChannel: "mod-log",
-        modRole: "Moderator",
-        adminRole: "Administrator",
-        welcomeChannel: "welcome",
-        welcomeMessage: "Say hello to {{user}}, everyone!"
-    }
-});
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]});
 
 // getting commands from folder
 client.commands = new Collection();
@@ -37,6 +21,37 @@ for (const file of commandFiles) {
     console.log(`Loading command: ${command.data.name}`);
 	client.commands.set(command.data.name, command);
 }
+
+// loading togglecommands
+console.log('Loading toggle commands...');
+const toggleCommandList = require(path.join(commandsPath, 'toggleCommands.json'));
+const { generateToggleCommand } = require(path.join(commandsPath, 'reuse/generateToggle.js'));
+
+let defaultSettings = {
+    modrole: "Moderator",
+    adminrole: "Administrator",
+}
+
+// generate toggle commands
+for (const toggleCommand of toggleCommandList){
+    let doCommand = generateToggleCommand(toggleCommand.varName, true, toggleCommand.desc);
+    let doNotCommand = generateToggleCommand(toggleCommand.varName, false, toggleCommand.desc);
+    client.commands.set(doCommand.data.name, doCommand);
+    client.commands.set(doNotCommand.data.name, doNotCommand);
+
+    defaultSettings[toggleCommand.varName] = toggleCommand.defaultValue;
+}
+
+// attaching settings to client
+client.settings = new Enmap({
+    name: "settings",
+    fetchAll: false,
+    autoFetch: true,
+    cloneLevel: 'deep',
+
+    // all variables must be lowercase
+    autoEnsure: defaultSettings,
+});
 
 // getting events from folder
 const eventsPath = path.join(__dirname, 'events');

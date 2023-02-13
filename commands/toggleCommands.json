@@ -1,0 +1,19 @@
+[
+    {
+        "varName": "transcribe",
+        "desc": "image transcription",
+        "defaultValue": true
+    },
+
+    {
+        "varName" : "copyimage",
+        "desc" : "copying images",
+        "defaultValue": true
+    },
+
+    {
+        "varName": "deletemessage",
+        "desc": "deleting the original message",
+        "defaultValue": true
+    }
+]
