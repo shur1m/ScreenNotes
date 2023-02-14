@@ -1,8 +1,5 @@
 const { SlashCommandBuilder, ChannelType } = require('discord.js');
 
-// clears settings for entire server, or just one channel
-// WIP create separate subcommand for server and channel
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('clear_settings')
@@ -41,13 +38,13 @@ module.exports = {
         // if server clear
         else if (subcommand == 'server') { 
             interaction.client.settings.delete(interaction.guild.id);
-            await interaction.reply({content: 'Server Settings reset.', ephemeral: true});
+            await interaction.reply({content: 'Server Settings cleared.', ephemeral: true});
         }
 
         // if dm clear
         else if (subcommand == 'dm') {
             interaction.client.settings.delete(interaction.user.id);
-            await interaction.reply(`<@${interaction.user.id}>`);
+            await interaction.reply({content: `Direct message settings for ${interaction.user.username} cleared.`, ephemeral: true});
         }
 	},
 };

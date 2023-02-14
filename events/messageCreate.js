@@ -1,5 +1,6 @@
 const { Events } = require('discord.js');
-const transcribeImage = require('../utils/transcribeImage.js');
+const evaluateToggle = require('../utils/enmap/evaluateToggle.js');
+const { transcribeAndSendMessage } = require('../utils/transcribeHelper.js');
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -8,10 +9,18 @@ module.exports = {
         if (message.author.id == client.user.id){
             return;
         }
-        
-        transcribeImage(client, message)
-            .catch((error) => {
-            console.error(error);
-        });
+
+        try {
+            //ensure safe word is not in message and transcibe_all is true, then transcribe
+            if (!message.content.includes('donot') &&
+                evaluateToggle('transcribe_all', client.settings, message))
+            {
+                await transcribeAndSendMessage(client, message, message.channel);
+            }   
+        } catch (e) {
+            console.error(e);
+
+            //WIP respond something went wrong
+         }
 	},
 };

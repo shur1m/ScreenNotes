@@ -73,5 +73,3 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
-
-// WIP allow commands in  direct messages

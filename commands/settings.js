@@ -7,6 +7,7 @@ const toggles = require('./toggles.json');
 // allow to change language
 // allow to remove all whitespace
 // allow removal of all newlines
+// if no options were entered, show current status
 
 //generate option for every togglecommand
 function addToggles(command) {
@@ -59,7 +60,7 @@ module.exports = {
 
         // prevent server commands from being sent in dms
         if (subcommand != 'dm' && !interaction.inGuild()){
-            interaction.reply({
+            await interaction.reply({
                 content: 'This command cannot be run in direct messages.',
                 ephemeral: true
             });
@@ -100,7 +101,7 @@ module.exports = {
         }
 
         //respond to interaction
-        await interaction.reply({content: 'settings changed', ephemeral: true});
+        await interaction.reply({content: 'settings successfully changed', ephemeral: true});
         console.log(interaction.client.settings);
 	},
 };
