@@ -57,6 +57,7 @@ module.exports = {
 		}
 
 		// using links, generate text and responses if we found image links
+		// WIP use sendTranscriptions with boolean parameters
 		if (imageLinks.length > 0){
 			let  { outputImages, outputTexts } = await transcribeImagesFromLinks(imageLinks);
 			await interaction.reply({content: 'I found your images. Give me a second...', ephemeral: true});

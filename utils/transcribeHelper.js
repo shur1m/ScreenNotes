@@ -4,11 +4,6 @@ const evaluateToggle = require('./enmap/evaluateToggle.js');
 
 //WIP if text too long, we should send it in multiple batches 
 
-//client for settings
-//message for images
-//output channel for bot output/transcription
-//imagelinks for extra images
-
 //given a message, returns the images and the transcribed texts
 async function transcribeMessage(message){
     // for every attachment (picture) in message, grab the links of the images
@@ -58,7 +53,7 @@ async function transcribeImagesFromLinks(imageLinks){
 //given client transcriptions, and output, formats and sends response into output
 async function sendTranscription(client, transcriptions, outputChannel) {
 
-    let settings = client.settings;
+    let settings = client.settings; // WIP get rid of this and instead send booleans 
     let message = transcriptions.message;
     let { outputImages, outputTexts } = transcriptions;
     
@@ -66,6 +61,8 @@ async function sendTranscription(client, transcriptions, outputChannel) {
     for (let i = 0; i < outputImages.length; ++i){
         messageOptions = Object();
         messageOptions.content = outputTexts[i];
+
+        // WIP instead of checking this here, we should pass a boolean in instead
         if (evaluateToggle('copy_image', settings, message))
             messageOptions.files = [outputImages[i]]
     
