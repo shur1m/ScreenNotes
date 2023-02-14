@@ -8,11 +8,12 @@ module.exports = {
 		.setDescription('transcribes images in a specific message')
         .addStringOption(option =>
 			option
-				.setName('message_link')
-				.setDescription('link to message that you would like to transcribe')
+				.setName('link')
+				.setDescription('link to message/image that you would like to transcribe')
+				.setRequired(true)
 			)
         ,
 	async execute(interaction) {
-		await interaction.reply(interaction.options.getString('message_link'));
+		await interaction.reply(interaction.options.getString('link'));
 	},
 };

@@ -6,8 +6,6 @@ const evaluateToggle = require('./enmap/evaluateToggle.js');
 
 async function transcribeImage(client, message){
     let settings = client.settings;
-    let guildid = message.guild.id;
-    let channelid = message.channel.id;
 
     //ensure safe word is not in message and transcibe_all is true
     if (message.content.includes('donot') || !evaluateToggle('transcribe_all', settings, message))

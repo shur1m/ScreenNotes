@@ -8,7 +8,7 @@ module.exports = {
         if (message.author.id == client.user.id){
             return;
         }
-
+        
         transcribeImage(client, message)
             .catch((error) => {
             console.error(error);

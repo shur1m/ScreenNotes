@@ -17,26 +17,37 @@ module.exports = {
                     .setRequired(true)
                     .addChannelTypes(ChannelType.GuildText)))
 
-        .addSubcommand(subcommand => (
+        .addSubcommand(subcommand => 
             subcommand.setName('server')
-                .setDescription('clear settings for entire server'))),
+                .setDescription('clear settings for entire server'))
+                
+        .addSubcommand(subcommand =>
+            subcommand.setName('dm')
+                .setDescription('clear settings for direct messages')),
 
 	async execute(interaction) {
         //if channel clear
-        if (interaction.options.getSubcommand() == 'channel'){
+        let subcommand = interaction.options.getSubcommand();
+        if (subcommand == 'channel'){
             let channelOption = interaction.options.getChannel('channel');
             let channelPath = `channel_settings.${channelOption.id}`;
 
             if (interaction.client.settings.has(interaction.guild.id, channelPath))
                 interaction.client.settings.delete(interaction.guild.id, channelPath);
-                
+
             await interaction.reply({content: `Settings for <#${channelOption.id}> cleared.`, ephemeral: true});
         }
 
         // if server clear
-        else { 
+        else if (subcommand == 'server') { 
             interaction.client.settings.delete(interaction.guild.id);
             await interaction.reply({content: 'Server Settings reset.', ephemeral: true});
+        }
+
+        // if dm clear
+        else if (subcommand == 'dm') {
+            interaction.client.settings.delete(interaction.user.id);
+            await interaction.reply(`<@${interaction.user.id}>`);
         }
 	},
 };

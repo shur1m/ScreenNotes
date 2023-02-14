@@ -1,13 +1,21 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Partials, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
 // import enmap for per server/channel settings
 const Enmap = require('enmap');
 
 // declaring clients
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]});
+const client = new Client({
+    intents: [ 
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.MessageContent,
+    ],
+    partials: [Partials.Channel]
+});
 
 // getting commands from folder
 client.commands = new Collection();
@@ -65,3 +73,5 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
+
+// WIP allow commands in  direct messages
